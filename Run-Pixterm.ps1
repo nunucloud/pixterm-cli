@@ -1,24 +1,88 @@
-# ===============================
-# Pixterm Windows Quick Runner
-# Author : Nunu Kim
-# ===============================
+param (
+    [string]$Target = "help"
+)
 
-if ($PSVersionTable.PSVersion -lt [Version]"3.0") {
-    Write-Error "PowerShell 3.0 이상이 필요합니다."
-    exit 1
+$VENV_DIR = ".venv"
+$PYTHON = "py -3"
+$REQ = "requirements.txt"
+$EXAMPLE_IMG = "examples/hachuping.png"
+$SCRIPT = if (Test-Path "pixterm.py") { "pixterm.py" } else { "heartsping.py" }
+
+function Ensure-Venv {
+    if (-not (Test-Path $VENV_DIR)) {
+        & $PYTHON -m venv $VENV_DIR
+        Write-Host "✅ Created venv at $VENV_DIR" -ForegroundColor Green
+    }
 }
 
-if ($MyInvocation.InvocationName -ne 'powershell') {
-    Start-Process -FilePath 'powershell' -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
-    exit
+function Activate {
+    if (Test-Path "$VENV_DIR/Scripts/Activate.ps1") {
+        & "$VENV_DIR/Scripts/Activate.ps1"
+    } else {
+        Write-Error "❌ Virtual environment not found. Run 'Make.ps1 install' first."
+        exit 1
+    }
 }
 
-$ErrorActionPreference = 'Stop'
+switch ($Target.ToLower()) {
 
-Write-Host "🎨 Pixterm 실행 준비 중..." -ForegroundColor Cyan
+    "help" {
+        Write-Host "pixterm-cli PowerShell targets:`n" -ForegroundColor Cyan
+        Write-Host "  .\Make.ps1 install    - create venv and install requirements"
+        Write-Host "  .\Make.ps1 run-ansi   - run with ANSI color using $EXAMPLE_IMG"
+        Write-Host "  .\Make.ps1 run-ascii  - run in grayscale ASCII"
+        Write-Host "  .\Make.ps1 demo       - run demo (Hachuping ANSI version)"
+        Write-Host "  .\Make.ps1 clean      - remove venv"
+    }
 
-Write-Host "🚀 Pixterm 실행 중..." -ForegroundColor Green
-cmd /c "py -3 pixterm.py -i ./examples/hachuping.png --ansi"
+    "install" {
+        Ensure-Venv
+        & "$VENV_DIR/Scripts/python.exe" -m pip install --upgrade pip
+        & "$VENV_DIR/Scripts/python.exe" -m pip install -r $REQ
+        Write-Host "✅ Dependencies installed from $REQ" -ForegroundColor Green
+    }
 
-Write-Host "`n✅ 실행 완료!" -ForegroundColor Cyan
-pause
+    "check" {
+        Ensure-Venv
+        & "$VENV_DIR/Scripts/python.exe" -c "import PIL; from PIL import Image; print('Pillow OK:', Image.__version__)"
+        Write-Host "✅ Pillow import check passed" -ForegroundColor Green
+    }
+
+    "run-ansi" {
+        if (-not (Test-Path $EXAMPLE_IMG)) {
+            Write-Error "❌ Missing $EXAMPLE_IMG. Put your sample image there."
+            exit 1
+        }
+        & "$VENV_DIR/Scripts/python.exe" $SCRIPT -i $EXAMPLE_IMG --ansi
+    }
+
+    "run-ascii" {
+        if (-not (Test-Path $EXAMPLE_IMG)) {
+            Write-Error "❌ Missing $EXAMPLE_IMG. Put your sample image there."
+            exit 1
+        }
+        & "$VENV_DIR/Scripts/python.exe" $SCRIPT -i $EXAMPLE_IMG
+    }
+
+    "demo" {
+        if (-not (Test-Path $EXAMPLE_IMG)) {
+            Write-Error "❌ Missing $EXAMPLE_IMG. Put your sample image there."
+            exit 1
+        }
+        Write-Host "💖 Showing Hachuping ANSI demo..." -ForegroundColor Magenta
+        & "$VENV_DIR/Scripts/python.exe" $SCRIPT -i $EXAMPLE_IMG --ansi
+    }
+
+    "clean" {
+        if (Test-Path $VENV_DIR) {
+            Remove-Item -Recurse -Force $VENV_DIR
+            Write-Host "🧹 Cleaned $VENV_DIR" -ForegroundColor Yellow
+        } else {
+            Write-Host "No venv to clean."
+        }
+    }
+
+    default {
+        Write-Error "❌ Unknown target: $Target"
+    }
+}
