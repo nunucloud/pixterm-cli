@@ -15,9 +15,9 @@ python3 pixterm.py -i "./examples/hachuping.png" --ansi
 
 ### 🪟 Windows
 ```powershell
-pixterm.bat
+run.ps1 demo
 # 또는
-py .\pixterm.py -i .\examples\hachuping.png --ansi 
+.\run.ps1 run-ansi
 ```
 
 ---
