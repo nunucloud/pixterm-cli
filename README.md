@@ -14,6 +14,7 @@ python3 pixterm.py -i "./examples/hachuping.png" --ansi
 ```
 
 ### 🪟 Windows
+- poswershell terminal에서 실행 (근데 테스트 안했음)
 ```powershell
 run.ps1 demo
 # 또는
