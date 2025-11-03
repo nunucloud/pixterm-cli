@@ -4,7 +4,7 @@ setlocal
 cd /d "%~dp0"
 set "ROOT=%~dp0"
 
-set "PYTHON=python"
+set "PYTHON=py -3"
 set "VENV=%ROOT%.venv"
 set "REQ=%ROOT%requirements.txt"
 set "SCRIPT=%ROOT%heartsping.py"
