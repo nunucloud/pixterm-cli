@@ -4,6 +4,24 @@ PNG, JPG, WEBP 등 어떤 이미지든 **터미널 안에서 컬러 픽셀처럼
 
 ---
 
+## 💻 빠른 실행 예시
+
+### 🐚 macOS / Linux
+```bash
+make demo
+# 또는
+python3 pixterm.py -i "./examples/hachuping.png" --ansi 
+```
+
+### 🪟 Windows
+```powershell
+pixterm.bat
+# 또는
+py .\pixterm.py -i .\examples\hachuping.png --ansi 
+```
+
+---
+
 ## 🌈 주요 특징
 
 - 🖼️ **이미지 → ANSI/ASCII 변환**
