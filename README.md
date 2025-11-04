@@ -42,7 +42,7 @@ make run examples/your_image.png w=160
 
 ### 1️⃣ 레포지토리 클론
 ```bash
-git clone https://github.com/goorm-dev/pixterm.git
+git clone https://github.com/pixterm.git
 cd pixterm-cli
 ```
 
@@ -148,6 +148,6 @@ Pixterm은 단순한 이미지 출력 도구가 아닙니다.
 
 ## 📄 License
 MIT License  
-© 2025 Goorm / Nunu Kim  
+© 2025 Nunu Kim  
 
 🩵 *Bring your pixels to life — right inside your terminal.*
