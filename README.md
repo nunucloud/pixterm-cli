@@ -147,7 +147,6 @@ Pixterm은 단순한 이미지 출력 도구가 아닙니다.
 ---
 
 ## 📄 License
-MIT License  
 © 2025 Nunu Kim  
 
 🩵 *Bring your pixels to life — right inside your terminal.*
