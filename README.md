@@ -8,17 +8,19 @@ PNG, JPG, WEBP 등 어떤 이미지든 **터미널 안에서 컬러 픽셀처럼
 
 ### 🐚 macOS / Linux
 ```bash
-make demo
-# 또는
-python3 pixterm.py -i "./examples/hachuping.png" --ansi 
+make run examples/your_image.png
+# 또는 가로 폭 조절 시
+make run examples/your_image.png w=160
 ```
 
 ### 🪟 Windows
-- poswershell terminal에서 실행 (근데 테스트 안했음)
+- PowerShell 터미널에서 실행
 ```powershell
-run.ps1 demo
+.\run.ps1 demo
 # 또는
-.\run.ps1 run-ansi
+.\run.ps1 run examples/your_image.png
+# 가로 폭 조절도 지원
+.\run.ps1 run examples/your_image.png w=160
 ```
 
 ---
@@ -47,21 +49,6 @@ cd pixterm-cli
 ### 2️⃣ 의존성 설치
 ```bash
 pip install -r requirements.txt
-```
-
-### 3️⃣ 이미지 → ASCII 출력
-```bash
-python3 pixterm.py -i "./examples/hachuping.webp" -w 160
-```
-
-### 4️⃣ 이미지 → 컬러 ANSI 출력
-```bash
-python3 pixterm.py -i "./examples/hachuping.webp" --ansi -w 160
-```
-
-### 5️⃣ 데모 하트 출력
-```bash
-python3 pixterm.py --demo -w 100
 ```
 
 ---
